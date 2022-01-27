@@ -4,7 +4,7 @@ inputs:
   production:
     description: 'Is this a production build?'
     required: true
-    default: "true"
+    default: 'true'
   retention_days:
     description: 'Retention Days'
     required: true
@@ -19,20 +19,20 @@ runs:
     run: echo "${{ inputs.production }}"
     shell: bash
   - name: 'Production:true?'
-    run: echo "${{ inputs.production == "true" }}"
+    run: echo "${{ inputs.production == 'true' }}"
     shell: bash
   - name: File
-    run: echo "${{ steps.package-version.outputs.current-version }}${{ inputs.production == "true" && '' || '-s'}}.zip"
+    run: echo "${{ steps.package-version.outputs.current-version }}${{ inputs.production == 'true' && '' || '-s'}}.zip"
     shell: bash
-  - name: ZIP ${{ steps.package-version.outputs.current-version }}${{ inputs.production == "true" && '' || '-s'}}
+  - name: ZIP ${{ steps.package-version.outputs.current-version }}${{ inputs.production == 'true' && '' || '-s'}}
     uses: vimtor/action-zip@master
     with:
       files: ".next/ next/ dist/ public/ node_modules/ package.json"
-      dest: zip/${{ steps.package-version.outputs.current-version }}${{ inputs.production == "true" && '' || '-s'}}.zip
+      dest: zip/${{ steps.package-version.outputs.current-version }}${{ inputs.production == 'true' && '' || '-s'}}.zip
       recursive: false
   - name: 'Upload Artifact to Production:${{ inputs.production }}'
     uses: actions/upload-artifact@v2
     with:
-      name: ${{ steps.package-version.outputs.current-version }}${{ inputs.production == "true" && '' || '-s'}}.zip
-      path: zip/${{ steps.package-version.outputs.current-version }}${{ inputs.production == "true" && '' || '-s'}}.zip
+      name: ${{ steps.package-version.outputs.current-version }}${{ inputs.production == 'true' && '' || '-s'}}.zip
+      path: zip/${{ steps.package-version.outputs.current-version }}${{ inputs.production == 'true' && '' || '-s'}}.zip
       retention-days: ${{inputs.retention_days}}
