@@ -15,6 +15,15 @@ runs:
   - name: GET VERSION
     id: package-version
     uses: martinbeentjes/npm-get-version-action@master
+  - name: 'Set Production:'
+    run: echo "${{ inputs.production == 'true' }} && '' || '-s'" >> $PROD
+    shell: bash
+  - name: 'Production:'
+    run: echo "$PROD"
+    shell: bash
+  - name: 'Production:'
+    run: echo "${{ PROD }}"
+    shell: bash
   - name: 'Production:'
     run: echo "${{ inputs.production }}"
     shell: bash
@@ -24,7 +33,7 @@ runs:
   - name: File
     run: echo "${{ steps.package-version.outputs.current-version }}${{ inputs.production == 'true' && '' || '-s'}}.zip"
     shell: bash
-  - name: ZIP ${{ steps.package-version.outputs.current-version }}${{ inputs.production == 'true' && '' || '-s'}}
+  - name: ZIP
     uses: vimtor/action-zip@master
     with:
       files: ".next/ next/ dist/ public/ node_modules/ package.json"
