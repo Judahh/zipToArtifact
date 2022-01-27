@@ -22,9 +22,6 @@ runs:
     run: echo "$PROD"
     shell: bash
   - name: 'Production:'
-    run: echo "${{ PROD }}"
-    shell: bash
-  - name: 'Production:'
     run: echo "${{ inputs.production }}"
     shell: bash
   - name: 'Production:true?'
