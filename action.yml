@@ -15,6 +15,12 @@ runs:
   - name: GET VERSION
     id: package-version
     uses: martinbeentjes/npm-get-version-action@master
+  - name: 'Production:'
+    run: echo "${{ inputs.production }}"
+    shell: bash
+  - name: File
+    run: echo "${{ steps.package-version.outputs.current-version }}${{ inputs.production == 'true' && '' || '-s'}}.zip"
+    shell: bash
   - name: ZIP ${{ steps.package-version.outputs.current-version }}${{ inputs.production == 'true' && '' || '-s'}}
     uses: vimtor/action-zip@master
     with:
