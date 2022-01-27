@@ -1,0 +1,29 @@
+name: 'ZIP TO ARTIFACT'
+description: 'Zip a NODE/NEXT project and publish a zip file to Artifact'
+inputs:
+  folder:  # folder name
+    description: 'Folder Name'
+    required: true
+    default: 'production'
+  retention_days:
+    description: 'Retention Days'
+    required: true
+    default: 1
+runs:
+  using: "composite"
+  steps:
+  - name: GET VERSION
+    id: package-version
+    uses: martinbeentjes/npm-get-version-action@master
+  - name: ZIP
+    uses: vimtor/action-zip@master
+    with:
+      files: ".next/ next/ dist/ public/ node_modules/ package.json"
+      dest: ${{inputs.folder}}/${{ steps.package-version.outputs.current-version }}.zip
+      recursive: false
+  - name: 'Upload Artifact'
+    uses: actions/upload-artifact@v2
+    with:
+      name: ${{ github.event.repository.name }}/${{inputs.folder}}/${{ steps.package-version.outputs.current-version }}.zip
+      path: ${{inputs.folder}}/${{ steps.package-version.outputs.current-version }}.zip
+      retention-days: ${{inputs.retention_days}}
