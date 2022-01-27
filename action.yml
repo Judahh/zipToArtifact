@@ -16,10 +16,10 @@ runs:
     id: package-version
     uses: martinbeentjes/npm-get-version-action@master
   - name: 'Set Production:'
-    run: echo "${{ inputs.production == 'true' }} && '' || '-s'" >> $PROD
+    run: echo "PROD=${{ inputs.production == 'true' }} && '' || '-s'" >> $GITHUB_ENV
     shell: bash
   - name: 'Production:'
-    run: echo "$PROD"
+    run: echo "${{PROD}}"
     shell: bash
   - name: 'Production:'
     run: echo "${{ inputs.production }}"
