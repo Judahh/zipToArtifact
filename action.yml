@@ -18,27 +18,15 @@ runs:
   - name: 'Set Production:'
     run: echo "PROD=$(${{ inputs.production == 'true' }} && echo '' || echo '-s')" >> $GITHUB_ENV
     shell: bash
-  - name: 'Production:'
-    run: echo "${{ env.PROD }}"
-    shell: bash
-  - name: 'Production:'
-    run: echo "${{ inputs.production }}"
-    shell: bash
-  - name: 'Production:true?'
-    run: echo "${{ inputs.production == 'true' }}"
-    shell: bash
-  - name: File
-    run: echo "${{ steps.package-version.outputs.current-version }}${{ inputs.production == 'true' && '' || '-s'}}.zip"
-    shell: bash
   - name: ZIP
     uses: vimtor/action-zip@master
     with:
       files: ".next/ next/ dist/ public/ node_modules/ package.json"
-      dest: zip/${{ steps.package-version.outputs.current-version }}${{ inputs.production == 'true' && '' || '-s'}}.zip
+      dest: zip/${{ steps.package-version.outputs.current-version }}${{ env.PROD }}.zip
       recursive: false
   - name: 'Upload Artifact to Production:${{ inputs.production }}'
     uses: actions/upload-artifact@v2
     with:
-      name: ${{ steps.package-version.outputs.current-version }}${{ inputs.production == 'true' && '' || '-s'}}.zip
-      path: zip/${{ steps.package-version.outputs.current-version }}${{ inputs.production == 'true' && '' || '-s'}}.zip
+      name: ${{ steps.package-version.outputs.current-version }}${{ env.PROD }}.zip
+      path: zip/${{ steps.package-version.outputs.current-version }}${{ env.PROD }}.zip
       retention-days: ${{inputs.retention_days}}
