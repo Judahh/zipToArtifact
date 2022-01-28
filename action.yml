@@ -27,6 +27,6 @@ runs:
   - name: 'Upload Artifact to Production:${{ inputs.production }}'
     uses: actions/upload-artifact@v2
     with:
-      # name: ${{ steps.package-version.outputs.current-version }}${{ env.PROD }}
+      name: ${{ steps.package-version.outputs.current-version }}${{ env.PROD }}
       path: zip/${{ steps.package-version.outputs.current-version }}${{ env.PROD }}.zip
       retention-days: ${{inputs.retention_days}}
