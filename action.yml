@@ -16,7 +16,7 @@ inputs:
   tests:
     description: 'Tests to zip'
     required: true
-    default: 'tests/ test/'
+    default: 'tests/ test/ *test.* *config.*'
   retention_days:
     description: 'Retention Days'
     required: true
