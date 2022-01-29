@@ -5,6 +5,10 @@ inputs:
     description: 'Is this a production build?'
     required: true
     default: 'true'
+  files:
+    description: 'Files to zip'
+    required: true
+    default: '.next/ next/ dist/ public/ node_modules/ package.json'
   tests:
     description: 'Add tests?'
     required: true
@@ -28,7 +32,7 @@ runs:
   - name: ZIP
     uses: vimtor/action-zip@master
     with:
-      files: ".next/ next/ dist/ public/ node_modules/ package.json"
+      files: "${{ inputs.files }} ${{ env.TESTS }}"
       dest: zip/${{ steps.package-version.outputs.current-version }}${{ env.PROD }}.zip
       recursive: false
   - name: 'Upload Artifact to Production:${{ inputs.production }}'
