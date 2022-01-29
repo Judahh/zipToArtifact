@@ -5,6 +5,10 @@ inputs:
     description: 'Is this a production build?'
     required: true
     default: 'true'
+  tests:
+    description: 'Add tests?'
+    required: true
+    default: 'false'
   retention_days:
     description: 'Retention Days'
     required: true
@@ -17,6 +21,9 @@ runs:
     uses: martinbeentjes/npm-get-version-action@master
   - name: 'Set Production:'
     run: echo "PROD=$(${{ inputs.production == 'true' }} && echo '' || echo '-s')" >> $GITHUB_ENV
+    shell: bash
+  - name: 'Set Tests:'
+    run: echo "TESTS=$(${{ inputs.tests == 'true' && echo 'tests/ test/' || echo '' }})" >> $GITHUB_ENV
     shell: bash
   - name: ZIP
     uses: vimtor/action-zip@master
