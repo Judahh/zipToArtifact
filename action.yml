@@ -9,10 +9,14 @@ inputs:
     description: 'Files to zip'
     required: true
     default: '.next/ next/ dist/ public/ node_modules/ package.json'
-  tests:
+  addTests:
     description: 'Add tests?'
     required: true
     default: 'false'
+  tests:
+    description: 'Tests to zip'
+    required: true
+    default: 'tests/ test/'
   retention_days:
     description: 'Retention Days'
     required: true
@@ -27,7 +31,7 @@ runs:
     run: echo "PROD=$(${{ inputs.production == 'true' }} && echo '' || echo '-s')" >> $GITHUB_ENV
     shell: bash
   - name: 'Set Tests:'
-    run: echo "TESTS=$(${{ inputs.tests == 'true' && echo 'tests/ test/' || echo '' }})" >> $GITHUB_ENV
+    run: echo "TESTS=$(${{ inputs.addTests == 'true' && echo inputs.tests || echo '' }})" >> $GITHUB_ENV
     shell: bash
   - name: ZIP
     uses: vimtor/action-zip@master
