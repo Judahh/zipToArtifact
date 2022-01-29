@@ -31,7 +31,7 @@ runs:
     run: echo "PROD=$(${{ inputs.production == 'true' }} && echo '' || echo '-s')" >> $GITHUB_ENV
     shell: bash
   - name: 'Set Tests:'
-    run: echo "TESTS=$(${{ inputs.addTests == 'true' && echo inputs.tests || echo '' }})" >> $GITHUB_ENV
+    run: echo "TESTS=$(${{ inputs.addTests == 'true' }} && echo ${{ inputs.tests }} || echo '')" >> $GITHUB_ENV
     shell: bash
   - name: ZIP
     uses: vimtor/action-zip@master
